@@ -24,7 +24,7 @@ const App = () => {
 };
 
 
-AppRegistry.registerComponent('music', () => App);
+AppRegistry.registerComponent('PPP', () => App);
 
 // export default class music extends Component {
 //   render() {
