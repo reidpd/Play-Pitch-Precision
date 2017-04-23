@@ -17,7 +17,7 @@ import Home from './src/components/home';
 const App = () => {
   return (
     <View>
-      <Header headerText={'Home'} />
+      <Header headerText={'NavBar'} />
       <Home />
     </View>
   );
