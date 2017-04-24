@@ -16,7 +16,7 @@ const PersonalDetail = ({ album }) => {
 
   return (
     <Card>
-      <CardSection>
+      <CardSection >
         <View style={thumbnailContainerStyle}>
           <Image
             style={thumbnailStyle}
@@ -37,15 +37,18 @@ const PersonalDetail = ({ album }) => {
       </CardSection>
 
       <CardSection>
-        <Button onPressCallback={() => Linking.openURL(url)}> Check Status
+        <Button onPressCallback={() => Linking.openURL(`https://cdn.meme.am/cache/instances/folder933/60758933.jpg`)}> Check Status
         </Button>
       </CardSection>
-      
+
     </Card>
   );
 };
 
 const styles = {
+  // cardSectionStyle: {
+  //   backgroundColor:'#fff'
+  // },
   headerContentStyle: {
     flexDirection: 'column',
     justifyContent: 'space-around'

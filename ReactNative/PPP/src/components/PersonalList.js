@@ -18,6 +18,7 @@ class CommunityList extends Component {
   }
 
   render() {
+    console.log('what is state', this.state);
     return (
       <ScrollView>
         {this.renderCommunityList()}
