@@ -6,7 +6,7 @@ import CommunityList from './src/components/PersonalList';
 
 const App = () => {
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Header headerText={'Home'} />
       <CommunityList />
       <Home />
