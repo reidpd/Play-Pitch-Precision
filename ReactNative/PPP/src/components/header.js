@@ -1,11 +1,9 @@
-
 import React from 'react';
 import { Text, View, Button } from 'react-native';
 
 
 const Header = (props) => {
   const { textStyle, viewStyle } = styles;
-
   return (
     <View style={viewStyle}>
       <Text style={textStyle}>{props.headerText}</Text>
@@ -15,8 +13,7 @@ const Header = (props) => {
         title="Log-In"
       />
     </View>
-  )
-
+  );
 };
 
 
@@ -40,6 +37,5 @@ const styles = {
     fontSize: 30,
   }
 };
-
 
 export default Header;
