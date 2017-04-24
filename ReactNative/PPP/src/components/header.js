@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
 
 
 const Header = (props) => {
@@ -9,6 +9,11 @@ const Header = (props) => {
   return (
     <View style={viewStyle}>
       <Text style={textStyle}>{props.headerText}</Text>
+      <Button
+        containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'white'}}
+        style={{fontSize: 20, color: 'green'}}
+        title="Log-In"
+      />
     </View>
   )
 
