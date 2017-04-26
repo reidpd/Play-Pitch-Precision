@@ -8,9 +8,11 @@ var getUserMedia = require('get-user-media-promise');
 var MicrophoneStream = require('microphone-stream');
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-
-  };
+  return ({
+    keyStrokeEvents: state.keyStrokeEvents,
+    vocalInputResults: state.vocalInputResults,
+    recordingStatus: state.recordingStatus
+  });
 };
 
 const mapDispatchToProps = (dispatch) => {

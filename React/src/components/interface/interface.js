@@ -15,7 +15,9 @@ import CaptureButtons from './captureButtons';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-
+    keyStrokeEvents: state.keyStrokeEvents,
+    vocalInputResults: state.vocalInputResults,
+    recordingStatus: state.recordingStatus
   };
 };
 
