@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
 import teoria from 'teoria';
-// import Mike from '../../../../vendors/mike-js/index.js';
 import PitchAnalyzer from '../../../../vendors/pitch-js/src/pitch.js';
 
 var getUserMedia = require('get-user-media-promise');
 var MicrophoneStream = require('microphone-stream');
-
-var micInput;
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -27,27 +23,22 @@ function getOctave(frequency) { return teoria.note(teoria.note.fromFrequency(fre
 function getNameAccidental(frequency) { return [getName(frequency), getAccidental(frequency)].join(''); }
 function getNameAccidentalOctave(freq) { return [getName(freq), getAccidental(freq), getOctave(freq)].join(''); }
 function getCentDiff(freq) { return teoria.note.fromFrequency(freq).cents }
-
-function getNotePlusCentDiff(frequency) {
-  let noteName = getNameAccidental(frequency);
-  return [noteName, teoria.note.fromFrequency(frequency).cents];
-}
-
-function getPreciseNotePlusCentDiff(frequency) {
-  let fqNoteName = getNameAccidentalOctave(frequency);
-  return [fqNoteName, teoria.note.fromFrequency(frequency).cents];
-}
-
-
-
-for (let j = 220; j <= 440; j++) {
-  console.log(getNotePlusCentDiff(j));
+function getNotePlusCentDiff(frequency) { return [getNameAccidental(frequency), getCentDiff(frequency)]; }
+function getPreciseNotePlusCentDiff(frequency) { return [getNameAccidentalOctave(frequency), getCentDiff(frequency)]; }
+function getPreciseNotePlusCentDiffPlusFreq(freq) {
+  const result = getPreciseNotePlusCentDiff(freq);
+  return result.concat(freq);
 }
 
 getUserMedia({ video: false, audio: true })
   .then(function(stream) {
     console.log(stream);
-    var micStream = new MicrophoneStream(stream);
+    var opts = {
+      // objectMode: true,
+      bufferSize: 4096
+     };
+    var micStream = new MicrophoneStream(stream, opts);
+    // micStream.opts.objectMode = true;
     console.log(micStream);
     // get Buffers (Essentially a Uint8Array DataView of the same Float32 values)
     var freqArray = [];
@@ -56,8 +47,8 @@ getUserMedia({ video: false, audio: true })
       // (This actually just creates a new DataView - the underlying audio data is not copied or modified.)
       var raw = MicrophoneStream.toRaw(chunk);
       var pitch = new PitchAnalyzer(44100);
-      console.log(chunk);
-      pitch.input(chunk);
+      // console.log(chunk);
+      pitch.input(raw);
       pitch.process();
       var tone = pitch.findTone();
       if (tone) {
@@ -65,14 +56,19 @@ getUserMedia({ video: false, audio: true })
             db = tone.db,
             note = getNote(freq);
 
-        console.log(getPreciseNotePlusCentDiff(freq));
-        // if (teoria.note.fromKey(Math.round(note)).name()==='c') { freqArray.push([teoria.note.fromKey(Math.round(note)).name(), db, i]); }
-        // if (freqArray.length===10) {
-        //   var newArr = [];
-        //   var sum = freqArray.reduce((sum, item) => { return sum + item });
-        //   newArr.push(sum/freqArray.length);
-        //   freqArray = newArr;
+        console.log(getPreciseNotePlusCentDiffPlusFreq(freq));
+        // if (teoria.note.fromKey(Math.round(note)).name()==='c') {
+          freqArray.push(freq);
         // }
+        if (freqArray.length===10) {
+          var newArr = [];
+          var sum = freqArray.reduce((sum, item) => { return sum + item });
+          newArr.push(sum/freqArray.length);
+          freqArray = newArr;
+          // console.log('avg of ten:', getPreciseNotePlusCentDiffPlusFreq(freqArray[0]));
+          freqArray = [];
+        }
+        // console.log('freqArray', freqArray);
         // console.log(teoria.note(teoria.note.fromFrequency(Math.round(freq)[note])).name());
       }
 
@@ -88,7 +84,7 @@ getUserMedia({ video: false, audio: true })
      });
 
     // or pipe it to another stream
-    micStream.pipe(micInput);
+    // micStream.pipe(micInput);
 
     // It also emits a format event with various details (frequency, channels, etc)
     micStream.on('format', function(format) {
@@ -103,116 +99,8 @@ getUserMedia({ video: false, audio: true })
     console.log(error);
   });
 
-// var pitch = new PitchAnalyzer(44100);
-// pitch.input(getUserMedia);
-//
-// Mike.on('error', function(e) {
-//     console.log('Uncaught error:', e);
-// });
-//
-// var wheel = document.querySelector('.tuner .wheel'),
-//     c = document.querySelector('.tuner .freq').childNodes[0],
-//     flat = document.querySelector('.tuner .flat'),
-//     sharp = document.querySelector('.tuner .sharp'),
-//     arrow = document.querySelector('.tuner .arrow');
-//     // pitch = null;
-//
-// wheel.rotate = function (angle) {
-//     var prefixes = ['webkitT', 'MozT', 'msT', 'OT', 't'];
-//
-//     for (var i=0; i<prefixes.length; i++) {
-//         this.style[prefixes[i] + 'ransform'] = 'rotate(' + angle + 'rad)';
-//     }
-// };
-//
-// const toggleClass = (elem, cls, add) => {
-//     console.log(elem);
-//     console.log(cls);
-//     console.log(add);
-//     if (elem.classList) {
-//         elem[add ? 'add' : 'remove'](cls);
-//     } else if (typeof elem.className === 'string') {
-//         elem.className = elem.className.replace(cls, '') +
-//             (add ? ' ' + cls : '');
-//     } else if (typeof elem.className === 'object') {
-//         elem.className.baseVal = elem.className.baseVal.replace(cls, '') +
-//             (add ? ' ' + cls : '');
-//     }
-// }
-//
-// var mike = new Mike({
-//     // swfPath: '../../vendor/mike.swf',
-//     parentElement: TuningIndicator,
-//     settings: {
-//         codec: Mike.SoundCodec,//.NELLYMOSER,
-//         sampleRate: 44100
-//     }
-// });
-//
-// mike.on('ready', function() {
-//     pitch = new PitchAnalyzer(44100);
-//
-//     this.setMicrophone();
-//     this.start();
-//
-//     if (!this.getParam('muted')) {
-//         this.hide();
-//     }
-// });
-//
-// mike.on('statechange', function(e) {
-//     this.hide();
-// })
-//
-// mike.on('error', function(e) {
-//     console.log(e);
-// });
-//
-// mike.on('data', function(data) {
-//     pitch.input(data);
-//     pitch.process();
-//     var tone = pitch.findTone();
-//
-//     if (tone) {
-//         var freq = tone.freq,
-//             note = getNote(freq),
-//             angle = -getAngle(note + 3),
-//             detune = note - Math.round(note),
-//             isFlat = detune < -0.01,
-//             isSharp = detune > 0.01,
-//             inTune = !isFlat && !isSharp;
-//
-//         // wheel.rotate(angle);
-//         // c.textContent = teoria.note.fromFrequency(note); //Math.round(freq);
-//
-//         // toggleClass(flat, 'highlighted', isFlat);
-//         // toggleClass(sharp, 'highlighted', isSharp);
-//         // toggleClass(arrow, 'highlighted', inTune);
-//
-//         // TODO
-//         // 1. octave indicators
-//     }
-// });
-//
-// function getNote(frequency, reference) {
-//     if (!frequency) return null;
-//     reference = reference || 440;
-//     return 69 + 12 * Math.log(frequency / reference) / Math.LN2;
-// }
-//
-// function getAngle(midiNote) {
-//     return midiNote ? Math.PI * (midiNote % 12) / 6 : 0;
-// }
-//
-// function getOctave (midiNote) {
-//     return ~~(midiNote / 12);
-// }
-
 class TuningIndicator extends Component {
   render() {
-    //
-    // let style = {backgroundColor: 'red'};
-
     return (
       <div className="container">
         tuningIndicator works!
@@ -247,4 +135,4 @@ class TuningIndicator extends Component {
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps)(TuningIndicator);
+export default connect(mapStateToProps, mapDispatchToProps)(TuningIndicator);
