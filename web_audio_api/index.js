@@ -51,3 +51,37 @@ function finishedLoading(bufferList) {
   source1.start(0);
   source2.start(0);
 }
+
+// Live Audio Input sample code
+function getLiveInput() {
+  // Only get the audio stream.
+  navigator.webkitGetUserMedia({audio: true}, onStream, onStreamError);
+};
+
+function onStream(stream) {
+  // Wrap a MediaStreamSourceNode around the live input stream.
+  var input = context.createMediaStreamSource(stream);
+  // Connect the input to a filter.
+  var filter = context.createBiquadFilter();
+  filter.frequency.value = 60.0;
+  filter.type = filter.NOTCH;
+  filter.Q = 10.0;
+
+  var analyser = context.createAnalyser();
+
+  // Connect graph.
+  input.connect(filter);
+  filter.connect(analyser);
+
+  // Set up an animation.
+  requestAnimationFrame(render);
+};
+
+function onStreamError(e) {
+  console.error(e);
+};
+
+function render() {
+  // Visualize the live audio input.
+  requestAnimationFrame(render);
+};
