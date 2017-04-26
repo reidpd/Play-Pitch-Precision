@@ -1,3 +1,17 @@
+export const pushNoteToArray = () => {
+  return {
+    type: 'NOTE_TO_ARRAY'
+  };
+};
+
+export const toggleCapture = () => {
+  console.log('Actions');
+  return {
+    type: 'TOGGLE_CAPTURE'
+  };
+};
+
+
 var getUserMedia = require('get-user-media-promise');
 var MicrophoneStream = require('microphone-stream');
 

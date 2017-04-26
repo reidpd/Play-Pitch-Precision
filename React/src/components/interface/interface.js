@@ -5,6 +5,7 @@ import OctaveButtons from './octaveButtons';
 import NoteIndicator from './noteIndicator';
 import TuningIndicator from './tuningIndicator';
 import Piano from './piano';
+import CaptureButtons from './captureButtons';
 
 // import ReactWebAudio from 'react-webaudio';
 // var ReactWebAudio = require('react-webaudio')
@@ -33,6 +34,7 @@ class Interface extends Component {
         <OctaveButtons />
         <Piano />
         <NoteIndicator />
+        <CaptureButtons />
         <TuningIndicator />
       </div>
     );

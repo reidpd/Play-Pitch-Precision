@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
+import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
+import {Navbar, NavItem, NavDropdown, MenuItem, Nav} from 'react-bootstrap';
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -19,24 +21,51 @@ class NavBar extends Component {
   render() {
     return (
 
-      <div className="navbar navbar-default">
-        <div className="row">
-          <div className="col-md-4">
-            <button className="btn btn-primary btn-lg active">Back</button>
-            <button className="btn btn-primary btn-lg active">Profile</button>
-          </div>
+      <Navbar inverse collapseOnSelect>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <LinkContainer to="/interface">
+              <a href="#">Intervalicity</a>
+            </LinkContainer>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
 
-          <div className="navbar-header col-md-4">
-            <h1 className="text-center">Intervalicity</h1>
-          </div>
-          <div className="col-md-2">
-            <button className="btn btn-primary btn-lg active">Sign-Up</button>
-          </div>
-          <div className="col-md-2">
-            <button className="btn btn-primary btn-lg active">Log-In</button>
-          </div>
-        </div>
-      </div>
+        <Navbar.Collapse>
+
+          <Nav>
+            <LinkContainer to="/profile">
+              <NavItem eventKey={1} href="#">
+                Personal Profile</NavItem>
+            </LinkContainer>
+
+            <LinkContainer to="/community">
+            <NavItem eventKey={2} href="#">Community</NavItem>
+            </LinkContainer>
+
+            {/* <NavItem> Intervalicity</NavItem> */}
+
+            <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
+              <MenuItem eventKey={3.1}>Sign up</MenuItem>
+              <MenuItem eventKey={3.2}>Log in</MenuItem>
+              <MenuItem eventKey={3.3}>Something else here</MenuItem>
+              <MenuItem divider />
+              <MenuItem eventKey={3.3}>Separated link</MenuItem>
+            </NavDropdown>
+          </Nav>
+          <Nav pullRight>
+            <LinkContainer to="/signup">
+              <NavItem eventKey={1} href="#">Sign up</NavItem>
+            </LinkContainer>
+            <LinkContainer to='/login'>
+              <NavItem eventKey={2} href="#">Sign in</NavItem>
+            </LinkContainer>
+          </Nav>
+
+        </Navbar.Collapse>
+
+      </Navbar>
+
 
     );
   }
