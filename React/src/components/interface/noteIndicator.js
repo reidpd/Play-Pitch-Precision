@@ -3,8 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 
+
 const mapStateToProps = (state, ownProps) => {
   return {
+    octave: state.octaveReducer.current
     keyStrokeEvents: state.keyStrokeEvents,
     vocalInputResults: state.vocalInputResults,
     exerciseScores: state.exerciseScores,
@@ -32,6 +34,9 @@ class NoteIndicator extends Component {
     return (
       <div className="container">
         <div style={style}>{this.props.note}</div>
+        <div className="row">
+          <span>Octave</span>
+        </div>
       </div>
     );
   }

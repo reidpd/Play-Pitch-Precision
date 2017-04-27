@@ -10,6 +10,8 @@ import { pushNoteToArray,
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    captureText: state.captureReducer.captureText,
+    disabled: state.captureReducer.disabled
     keyStrokeEvents: state.keyStrokeEvents,
     vocalInputResults: state.vocalInputResults,
     exerciseScores: state.exerciseScores,
@@ -22,63 +24,52 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators ({activateMicrophoneInput, toggleAudioCapture, pushNoteToArray, startAudioCapture, stopAudioCapture}, dispatch);
+  return bindActionCreators ({toggleAudioCapture, toggleCapture}, dispatch);
 };
 
 
 class CaptureButtons extends Component {
-
   constructor(props) {
     super(props);
-    this.button = 'Capture Keyboard';
     this.handleClick = this.handleClick.bind(this);
   }
+  
+  handleClick = () =>  {
+    this.props.toggleCapture();
 
   handleClick(id) {
     // toggleCapture();
-    console.log('click');
-    switch(id) {
-      case 1:
-      case 2:
-      case 3:
-        // if (this.props.recordingStatus===false) {
-        //   console.log('mic should activate soon...');
-        //   this.props.activateMicrophoneInput;
-        // } else {
-        //   this.props.stopAudioCapture.payload;
-        // }
-      case 4:
-      case 5:
-      default:
-        break;
+//     console.log('click');
+//     switch(id) {
+//       case 1:
+//       case 2:
+//       case 3:
+//       case 4:
+//       case 5:
+//       default:
+//         break;
     }
   }
 
   render() {
     return (
       <div className="row">
-          <div className="col-md-3">
-            <button onClick={this.handleClick(1)} className="btn btn-primary btn-lg active">Capture KeyStrokeEvents</button>
-          </div>
-          <div className="col-md3">
-            <button onClick={this.handleClick(2)} className="btn btn-primary btn-lg active">Stop Capturing KeyStrokeEvents</button>
-          </div>
+          <div className="col-md-6">
+            <button onClick={this.handleClick} className="btn btn-primary btn-lg active" disabled={this.props.disabled}>{this.props.captureText}</button>
           <div className="col-md3">
             <button onClick={this.props.toggleAudioCapture} className="btn btn-primary btn-lg active">Toggle Audio Input</button>
           </div>
-          <div className="col-md3">
-            {/* <button onClick={this.handleClick(4)} className="btn btn-primary btn-lg active">Stop Audio Input</button> */}
             <p>
               Recording Status: { this.props.recordingStatus }
             </p>
           </div>
-          <div className="col-md3">
-            <button onClick={this.handleClick(5)} className="btn btn-primary btn-lg active">Reset Key Events</button>
-          </div>
+//           <div className="col-md3">
+//             <button onClick={this.handleClick(5)} className="btn btn-primary btn-lg active">Reset Key Events</button>
+//           </div>
       </div>
     );
   }
 
 }
 
-export default connect (mapStateToProps, mapDispatchToProps)(CaptureButtons);
+export default connect (mapStateToProps, { toggleCapture })(CaptureButtons);

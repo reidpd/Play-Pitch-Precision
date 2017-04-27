@@ -6,9 +6,13 @@ import sungNoteReducer from './sungNote_reducer';
 import vocalInputReducer from './vocalInputResults_reducer';
 import recordingStatusReducer from './recordingStatus_reducer';
 import greenTimeReducer from './greenTime_reducer';
+import { captureReducer, octaveReducer, notesArrayReducer } from './interface';
 
 
 const rootReducer = combineReducers({
+  notesArrayReducer, 
+  captureReducer,
+  octaveReducer,
   greenTimeReducer,
   keyEventsReducer,
   targetNoteReducer,

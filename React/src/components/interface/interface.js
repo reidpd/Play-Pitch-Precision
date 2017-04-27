@@ -13,6 +13,7 @@ import CaptureButtons from './captureButtons';
 // import PitchAnalyzer from '../../../../vendors/pitch-js/src/pitch.js';
 
 
+
 const mapStateToProps = (state, ownProps) => {
   return {
     keyStrokeEvents: state.keyStrokeEvents,
