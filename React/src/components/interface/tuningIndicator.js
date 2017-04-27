@@ -3,6 +3,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import teoria from 'teoria';
 import PitchAnalyzer from '../../../../vendors/pitch-js/src/pitch.js';
+import { pushNoteToArray,
+        //  activateMicrophoneInput,
+         startAudioCapture,
+         stopAudioCapture,
+       } from '../../actions';
 
 var getUserMedia = require('get-user-media-promise');
 var MicrophoneStream = require('microphone-stream');
@@ -16,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators ({}, dispatch);
+  return bindActionCreators ({pushNoteToArray, startAudioCapture, stopAudioCapture}, dispatch);
 };
 
 function getName(frequency) { return teoria.note(teoria.note.fromFrequency(frequency).note.coord).name(); }
@@ -31,6 +36,11 @@ function getPreciseNotePlusCentDiffPlusFreq(freq) {
   const result = getPreciseNotePlusCentDiff(freq);
   return result.concat(freq);
 }
+
+for (var i=220; i<=440; i++) {
+  console.log(getPreciseNotePlusCentDiffPlusFreq(i));
+}
+
 
 getUserMedia({ video: false, audio: true })
   .then(function(stream) {
@@ -79,8 +89,6 @@ getUserMedia({ video: false, audio: true })
           reference = reference || 440;
           return 69 + 12 * Math.log(frequency / reference) / Math.LN2;
       }
-      // console.log(raw);
-      //...
 
       // note: if you set options.objectMode=true, the `data` event will output AudioBuffers instead of Buffers
      });
@@ -100,6 +108,7 @@ getUserMedia({ video: false, audio: true })
   }).catch(function(error) {
     console.log(error);
   });
+
 
 class TuningIndicator extends Component {
   render() {

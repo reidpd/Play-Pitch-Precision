@@ -1,5 +1,7 @@
 import PitchAnalyzer from '../../../vendors/pitch-js/src/pitch.js';
 import teoria from 'teoria';
+var getUserMedia = require('get-user-media-promise');
+var MicrophoneStream = require('microphone-stream');
 
 export const pushNoteToArray = () => {
   return {
@@ -14,8 +16,6 @@ export const toggleCapture = () => {
   };
 };
 
-var getUserMedia = require('get-user-media-promise');
-var MicrophoneStream = require('microphone-stream');
 export const activateMicrophoneInput = () => {
   getUserMedia({ video: false, audio: true })
   .then(function(stream) {

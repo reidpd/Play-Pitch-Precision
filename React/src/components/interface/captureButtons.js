@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { toggleCapture } from '../../actions';
-import { captureReducer } from '../../reducers';
-
+import { pushNoteToArray,
+         activateMicrophoneInput,
+         startAudioCapture,
+         stopAudioCapture,
+       } from '../../actions';
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -14,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators ({ toggleCapture }, dispatch);
+  return bindActionCreators ({activateMicrophoneInput, pushNoteToArray, startAudioCapture, stopAudioCapture}, dispatch);
 };
 
 
@@ -23,17 +25,26 @@ class CaptureButtons extends Component {
   constructor(props) {
     super(props);
     this.button = 'Capture Keyboard';
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(id) {
     // toggleCapture();
+    console.log('click');
     switch(id) {
       case 1:
       case 2:
       case 3:
+        if (this.props.recordingStatus===false) {
+          console.log('mic should activate soon...');
+          this.props.activateMicrophoneInput;
+        } else {
+          this.props.stopAudioCapture.payload;
+        }
       case 4:
       case 5:
       default:
+        break;
     }
   }
 
@@ -47,7 +58,7 @@ class CaptureButtons extends Component {
             <button onClick={this.handleClick(2)} className="btn btn-primary btn-lg active">Stop Capturing KeyStrokeEvents</button>
           </div>
           <div className="col-md3">
-            <button onClick={this.handleClick(3)} className="btn btn-primary btn-lg active">Toggle Audio Input</button>
+            <button onClick={console.log('click!')} className="btn btn-primary btn-lg active">Toggle Audio Input</button>
           </div>
           <div className="col-md3">
             {/* <button onClick={this.handleClick(4)} className="btn btn-primary btn-lg active">Stop Audio Input</button> */}

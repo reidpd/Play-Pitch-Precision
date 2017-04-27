@@ -36,8 +36,8 @@ class Interface extends Component {
         <OctaveButtons />
         <Piano />
         <NoteIndicator />
-        <CaptureButtons />
         <TuningIndicator />
+        <CaptureButtons />
       </div>
     );
   }
