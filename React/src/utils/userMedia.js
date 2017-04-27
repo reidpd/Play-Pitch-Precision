@@ -1,69 +1,74 @@
-import PitchAnalyzer from '../../../vendors/pitch-js/src/pitch.js';
 import teoria from 'teoria';
+import PitchAnalyzer from '../../../vendors/pitch-js/src/pitch.js';
+import store from '../store';
+
 var getUserMedia = require('get-user-media-promise');
 var MicrophoneStream = require('microphone-stream');
+const {dispatch, getState} = store;
 
-export const pushNoteToArray = () => {
-  return {
-    type: 'NOTE_TO_ARRAY'
-  };
-};
-
-export const toggleCapture = () => {
-  console.log('Actions');
-  return {
-    type: 'TOGGLE_CAPTURE'
-  };
-};
-
-export const activateMicrophoneInput = () => {
-  getUserMedia({ video: false, audio: true })
+export default getUserMedia({ video: false, audio: true })
   .then(function(stream) {
     console.log(stream);
     var opts = {
       // objectMode: true,
       bufferSize: 4096
-    };
+     };
     var micStream = new MicrophoneStream(stream, opts);
+    // micStream.opts.objectMode = true;
+    console.log(micStream);
     // get Buffers (Essentially a Uint8Array DataView of the same Float32 values)
     var freqArray = [];
     micStream.on('data', function(chunk) {
+
+      if (!getState().recordingStatusReducer) {
+        return;
+      }
+
+      // Optionally convert the Buffer back into a Float32Array
+      // (This actually just creates a new DataView - the underlying audio data is not copied or modified.)
       var raw = MicrophoneStream.toRaw(chunk);
       var pitch = new PitchAnalyzer(44100);
+      // console.log(chunk);
       pitch.input(raw);
       pitch.process();
       var tone = pitch.findTone();
       if (tone) {
         var freq = tone.freq,
-        db = tone.db,
-        note = getNote(freq);
+            db = tone.db,
+            note = getNote(freq)
 
-        console.log(getPreciseNotePlusCentDiffPlusFreq(freq));
-        // if (teoria.note.fromKey(Math.round(note)).name()==='c') {
-        freqArray.push(freq);
+        // if (this.props.recordingStatus===true) {
+        //
         // }
-        if (freqArray.length===10) {
-          var newArr = [];
-          var sum = freqArray.reduce((sum, item) => { return sum + item });
-          newArr.push(sum/freqArray.length);
-          freqArray = newArr;
-          // console.log('avg of ten:', getPreciseNotePlusCentDiffPlusFreq(freqArray[0]));
-          freqArray = [];
-        }
+
+        console.log(getPreciseNotePlusCentDiffPlusFreq(freq)); //dispatch to the store //As singing, get guage to reflect where you are in RGY
+        // get targetNote
+        // read it dynamically
+        // hold for timeRequirement
+        // if (teoria.note.fromKey(Math.round(note)).name()==='c') {
+        //   freqArray.push(freq);
+        // // }
+        // if (freqArray.length===10) {
+        //   var newArr = [];
+        //   var sum = freqArray.reduce((sum, item) => { return sum + item });
+        //   newArr.push(sum/freqArray.length);
+        //   freqArray = newArr;
+        //   // console.log('avg of ten:', getPreciseNotePlusCentDiffPlusFreq(freqArray[0]));
+        //   freqArray = [];
+        // }
         // console.log('freqArray', freqArray);
         // console.log(teoria.note(teoria.note.fromFrequency(Math.round(freq)[note])).name());
       }
 
       function getNote(frequency, reference) {
-        if (!frequency) return null;
-        reference = reference || 440;
-        return 69 + 12 * Math.log(frequency / reference) / Math.LN2;
+          if (!frequency) return null;
+          reference = reference || 440;
+          return 69 + 12 * Math.log(frequency / reference) / Math.LN2;
       }
-      // console.log(raw);
-      //...
 
+      //dispatch an action to record captured info
       // note: if you set options.objectMode=true, the `data` event will output AudioBuffers instead of Buffers
-    });
+     });
 
     // or pipe it to another stream
     // micStream.pipe(micInput);
@@ -74,29 +79,13 @@ export const activateMicrophoneInput = () => {
     });
 
     // Stop when ready
-    // if (state.recordingStatus===false) { micStream.stop(); }
+    // document.getElementById('my-stop-button').onclick = function() {
+    //   micStream.stop();
+    // };
   }).catch(function(error) {
     console.log(error);
   });
-}
 
-export const toggleAudioCapture = () => {
-  console.log('React/src/actions/index/activateVocalInput()');
-  return {
-    type: 'TOGGLE_AUDIO_CAPTURE',
-  }
-}
-
-export const stopAudioCapture = () => {
-  return {
-    type: 'STOP_AUDIO_CAPTURE',
-    payload: false
-  }
-}
-
-
-
-// teoria functions for music theory
 function getName(frequency) { return teoria.note(teoria.note.fromFrequency(frequency).note.coord).name(); }
 function getAccidental(frequency) { return teoria.note(teoria.note.fromFrequency(frequency).note.coord).accidental(); }
 function getOctave(frequency) { return teoria.note(teoria.note.fromFrequency(frequency).note.coord).octave(); }

@@ -7,6 +7,8 @@ const recordingStatusReducer = (state = initialState.recordingStatus, action) =>
       return action.payload;
     case 'STOP_AUDIO_CAPTURE':
       return action.payload;
+    case 'TOGGLE_AUDIO_CAPTURE':
+        return !state;
     default:
       return state;
   }

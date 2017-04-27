@@ -5,6 +5,7 @@ import { pushNoteToArray,
          activateMicrophoneInput,
          startAudioCapture,
          stopAudioCapture,
+         toggleAudioCapture
        } from '../../actions';
 
 const mapStateToProps = (state, ownProps) => {
@@ -16,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators ({activateMicrophoneInput, pushNoteToArray, startAudioCapture, stopAudioCapture}, dispatch);
+  return bindActionCreators ({activateMicrophoneInput, toggleAudioCapture, pushNoteToArray, startAudioCapture, stopAudioCapture}, dispatch);
 };
 
 
@@ -58,7 +59,7 @@ class CaptureButtons extends Component {
             <button onClick={this.handleClick(2)} className="btn btn-primary btn-lg active">Stop Capturing KeyStrokeEvents</button>
           </div>
           <div className="col-md3">
-            <button onClick={console.log('click!')} className="btn btn-primary btn-lg active">Toggle Audio Input</button>
+            <button onClick={this.props.toggleAudioCapture} className="btn btn-primary btn-lg active">Toggle Audio Input</button>
           </div>
           <div className="col-md3">
             {/* <button onClick={this.handleClick(4)} className="btn btn-primary btn-lg active">Stop Audio Input</button> */}
