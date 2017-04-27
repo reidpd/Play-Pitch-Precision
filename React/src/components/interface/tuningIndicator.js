@@ -2,21 +2,23 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { pushNoteToArray,
-        //  activateMicrophoneInput,
-         startAudioCapture,
-         stopAudioCapture,
-       } from '../../actions';
+        toggleAudioCapture } from '../../actions';
 
 const mapStateToProps = (state, ownProps) => {
   return ({
     keyStrokeEvents: state.keyStrokeEvents,
     vocalInputResults: state.vocalInputResults,
+    exerciseScores: state.exerciseScores,
+    greenTime: state.greenTime,
+    targetNote: state.targetNote,
+    targetNoteIndex: state.targetNoteIndex,
+    sungNote: state.sungNote,
     recordingStatus: state.recordingStatus
   });
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators ({pushNoteToArray, startAudioCapture, stopAudioCapture}, dispatch);
+  return bindActionCreators ({pushNoteToArray, toggleAudioCapture}, dispatch);
 };
 
 

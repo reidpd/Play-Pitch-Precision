@@ -12,6 +12,11 @@ const mapStateToProps = (state, ownProps) => {
   return {
     keyStrokeEvents: state.keyStrokeEvents,
     vocalInputResults: state.vocalInputResults,
+    exerciseScores: state.exerciseScores,
+    greenTime: state.greenTime,
+    targetNote: state.targetNote,
+    targetNoteIndex: state.targetNoteIndex,
+    sungNote: state.sungNote,
     recordingStatus: state.recordingStatus
   };
 };
@@ -36,12 +41,12 @@ class CaptureButtons extends Component {
       case 1:
       case 2:
       case 3:
-        if (this.props.recordingStatus===false) {
-          console.log('mic should activate soon...');
-          this.props.activateMicrophoneInput;
-        } else {
-          this.props.stopAudioCapture.payload;
-        }
+        // if (this.props.recordingStatus===false) {
+        //   console.log('mic should activate soon...');
+        //   this.props.activateMicrophoneInput;
+        // } else {
+        //   this.props.stopAudioCapture.payload;
+        // }
       case 4:
       case 5:
       default:

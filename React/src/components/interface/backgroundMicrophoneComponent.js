@@ -16,6 +16,11 @@ const mapStateToProps = (state, ownProps) => {
   return ({
     keyStrokeEvents: state.keyStrokeEvents,
     vocalInputResults: state.vocalInputResults,
+    exerciseScores: state.exerciseScores,
+    greenTime: state.greenTime,
+    targetNote: state.targetNote,
+    targetNoteIndex: state.targetNoteIndex,
+    sungNote: state.sungNote,
     recordingStatus: state.recordingStatus
   });
 };
@@ -54,7 +59,7 @@ class TuningIndicator extends Component {
     super();
   }
 
-  activateMicrophoneInput() {
+  function activateMicrophoneInput() {
     getUserMedia({ video: false, audio: true })
       .then(function(stream) {
         console.log(stream);
@@ -89,6 +94,7 @@ class TuningIndicator extends Component {
 
             if (this.props.recordingStatus === true) {
               if ( (time === timeRequirement) && (targetNoteSuccession.index() === keyEventResults.length ) ) {
+                /**/
                 // record score to currentExerciseScores
                 // currentExerciseScores posted to DB w/ API
                 // set recordingStatus to false w/ state

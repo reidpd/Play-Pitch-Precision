@@ -87,10 +87,61 @@ export const toggleAudioCapture = () => {
   }
 }
 
-export const stopAudioCapture = () => {
+export const incrementGreenTime = () => {
   return {
-    type: 'STOP_AUDIO_CAPTURE',
-    payload: false
+    type: 'INCREMENT_GREEN_TIME'
+  }
+}
+
+export const resetGreenTime = () => {
+  return {
+    type: 'RESET_GREEN_TIME'
+  }
+}
+
+export const decrementScore = (amount) => {
+  return {
+    type: 'DECREMENT_SCORE',
+    amount: amount
+  }
+}
+
+export const resetScore = () => {
+  return {
+    type: 'RESET_SCORE'
+  }
+}
+
+export const setKeyEventAsTargetNote = (keyEvent) => {
+  return {
+    type: 'SET_KEY_EVENT_AS_TARGET_NOTE',
+    payload: keyEvent
+  }
+}
+
+export const setSungNote = (note) => {
+  return {
+    type: 'SET_SUNG_NOTE',
+    payload: note
+  }
+}
+
+export const incrementTargetNoteIndex = () => {
+  return {
+    type: 'INCREMENT_TARGET_NOTE_INDEX'
+  }
+}
+
+export const resetTargetNoteIndex = () => {
+  return {
+    type: 'RESET_TARGET_NOTE_INDEX'
+  }
+}
+
+export const pushScoreToExerciseScoresArray = (score) => {
+  return {
+    type: 'PUSH_SCORE_TO_EXERCISE_SCORES_ARRAY',
+    payload: score
   }
 }
 
