@@ -1,4 +1,15 @@
 export default {
+  notesArray: [],
+  capture: {
+    capture: false,
+    captureText: 'Capture Keyboard',
+    disabled: ""
+  },
+  octave: {
+    current: 4,
+    up: "",
+    down: ""
+  },
   keyStrokeEvents: [],
   vocalInputResults: [],
   exerciseScores: [],

@@ -1,5 +1,6 @@
+import initialState from './initialState';
 
-export const notesArrayReducer = (state = [], action) => {
+export const notesArrayReducer = (state = initialState.notesArray, action) => {
 
   console.log(action);
 
@@ -11,7 +12,7 @@ export const notesArrayReducer = (state = [], action) => {
   }
 };
 
-export const captureReducer = (state = {capture: false, captureText: 'Capture Keyboard', disabled: ""}, action) => {
+export const captureReducer = (state = initialState.capture, action) => {
 
   switch (action.type) {
     case 'TOGGLE_CAPTURE':
@@ -27,7 +28,7 @@ export const captureReducer = (state = {capture: false, captureText: 'Capture Ke
   }
 };
 
-export const octaveReducer = (state = {current: 4, up: "", down: ""}, action) => {
+export const octaveReducer = (state = initialState.octave, action) => {
 
   switch (action.type) {
     case 'SHIFT_OCTAVES':

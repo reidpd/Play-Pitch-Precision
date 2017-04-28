@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { pushNoteToArray,
-         activateMicrophoneInput,
-         startAudioCapture,
-         stopAudioCapture,
+         toggleCapture,
          toggleAudioCapture
        } from '../../actions';
 
 const mapStateToProps = (state, ownProps) => {
   return {
     captureText: state.captureReducer.captureText,
-    disabled: state.captureReducer.disabled
+    disabled: state.captureReducer.disabled,
     keyStrokeEvents: state.keyStrokeEvents,
     vocalInputResults: state.vocalInputResults,
     exerciseScores: state.exerciseScores,
@@ -33,11 +31,11 @@ class CaptureButtons extends Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }
-  
+
   handleClick = () =>  {
     this.props.toggleCapture();
 
-  handleClick(id) {
+  // handleClick(id) {
     // toggleCapture();
 //     console.log('click');
 //     switch(id) {
@@ -49,7 +47,6 @@ class CaptureButtons extends Component {
 //       default:
 //         break;
     }
-  }
 
   render() {
     return (
@@ -63,13 +60,13 @@ class CaptureButtons extends Component {
               Recording Status: { this.props.recordingStatus }
             </p>
           </div>
-//           <div className="col-md3">
+{/* //           <div className="col-md3">
 //             <button onClick={this.handleClick(5)} className="btn btn-primary btn-lg active">Reset Key Events</button>
-//           </div>
+//           </div> */}
       </div>
     );
   }
 
 }
 
-export default connect (mapStateToProps, { toggleCapture })(CaptureButtons);
+export default connect (mapStateToProps, mapDispatchToProps)(CaptureButtons);

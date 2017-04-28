@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    octave: state.octaveReducer.current
+    octave: state.octaveReducer.current,
     keyStrokeEvents: state.keyStrokeEvents,
     vocalInputResults: state.vocalInputResults,
     exerciseScores: state.exerciseScores,
