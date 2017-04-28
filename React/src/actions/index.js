@@ -1,4 +1,4 @@
-import PitchAnalyzer from '../../../vendors/pitch-js/src/pitch.js';
+import PitchAnalyzer from '../../vendors/pitch-js/src/pitch.js';
 import teoria from 'teoria';
 var getUserMedia = require('get-user-media-promise');
 var MicrophoneStream = require('microphone-stream');

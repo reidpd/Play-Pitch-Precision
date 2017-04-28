@@ -1,5 +1,5 @@
 import teoria from 'teoria';
-import PitchAnalyzer from '../../../vendors/pitch-js/src/pitch.js';
+import PitchAnalyzer from '../../vendors/pitch-js/src/pitch.js';
 import store from '../store';
 
 var getUserMedia = require('get-user-media-promise');
